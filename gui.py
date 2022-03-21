@@ -2,31 +2,40 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-columns = ['ms','uV']
-data = pd.read_csv("Example Reteval.csv", sep=',', usecols=[2,3], skiprows=28, names=columns )
-data = data.dropna(how='any')
-#print(data)
 
-pd.DataFrame.plot(data)
+#data1 = pd.read_csv("Example Reteval.csv", sep=',', usecols=[6,7], skiprows=28, names=columns )
+#data1 = data1.dropna(how='any')
+data1 = pd.read_csv("Example Reteval.csv", sep=',')
 
 
-df1 = data[data["ms"].str.contains("ms")==False] #dropping the ms string that appears in the dataframe
-col1=(df1['ms'])
-col1 = np.array(col1) #converitng to np array
+i = data1.loc[data1['PatientID'] == 'Reported Waveform'].index.values
+j = data1.loc[data1['PatientID'] == 'Pupil Waveform'].index.values
 
-#for i in range(len(col1)):
-#    col1[i] = int(float(col1[i]))  #converting the nteger values to floats
+data2 = data1.iloc[i[0]+1:j[0],:] #splitting the datasets
+data3 = data1.iloc[j[0]+1:,:]
 
-df1 = data[data['uV'].str.contains('mm') == False] #dropping the mm string that appears in the dataframe
-col2=(df1['uV'])
-col2 = np.array(col2) #converitng to np array
-#for i in range(len(col2)):
-#    col2[i] = int(float(col2[i]))
+#dropping the columns that does not have values
+data2 = data2.dropna(axis = 1, how='all')
+data3 = data3.dropna(axis = 1, how='all')
+#converting the column values to numeric data
+data2 = data2.apply(pd.to_numeric)
+data3 = data3.apply(pd.to_numeric)
 
 
-print(col1)
-print(len(col1))
-print(col2)
-print(len(col2))
-plt.plot(col1,col2)
+#  plotting
+
+data2.plot(x='123',y= 'Unnamed: 3')
+data2.plot(x='123.2',y= 'Unnamed: 7')
+data2.plot(x='123.4',y= 'Unnamed: 11')
 plt.show()
+
+data3.plot(x='123',y= 'Unnamed: 3')
+data3.plot(x='123.2',y= 'Unnamed: 7')
+data3.plot(x='123.4',y= 'Unnamed: 11')
+plt.show()
+
+
+
+
+
+

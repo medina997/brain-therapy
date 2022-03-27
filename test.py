@@ -16,9 +16,17 @@ class plot:
 def Patient(fileName):
     # data1 = pd.read_csv("Example Reteval.csv", sep=',', usecols=[6,7], skiprows=28, names=columns )
     # data1 = data1.dropna(how='any')
-    cString = 'CB07'
+
     l = []
     data1 = pd.read_csv(fileName, sep=',', encoding='latin1')
+    texts(data1.iloc[2,2], 5, 2)
+    texts(data1.iloc[0,2], 4, 2)
+    texts(data1.iloc[5, 2], 6, 2)
+    texts(data1.iloc[6, 2], 7, 2)
+    date = data1.iloc[1,2]
+
+    cString = data1.columns[2]
+    texts(cString, 3, 2)
 
     i = data1.loc[data1['PatientID'] == 'Reported Waveform'].index.values
     j = data1.loc[data1['PatientID'] == 'Raw Waveform'].index.values
@@ -43,38 +51,38 @@ def Patient(fileName):
 
     data2.plot(x=f'{cString}', y='Unnamed: 3')
     plt.savefig('Unnamed3.png')
-    p = plot(f'{cString} ', 2, 'Unnamed3.png')
+    p = plot(f'{cString} ', date, 'Unnamed3.png')
     l.append(p)
 
     data2.plot(x=f'{cString}.2', y='Unnamed: 7')
     plt.savefig('Unnamed7.png')
-    p = plot(f'{cString}.2', 2, 'Unnamed7.png')
+    p = plot(f'{cString}.2', date, 'Unnamed7.png')
     l.append(p)
 
     data2.plot(x=f'{cString}.4', y='Unnamed: 11')
     plt.savefig('Unnamed11.png')
-    p = plot(f'{cString}.4', 2, 'Unnamed11.png')
+    p = plot(f'{cString}.4', date, 'Unnamed11.png')
     l.append(p)
 
     data3.plot(x=f'{cString}', y='Unnamed: 3')
     plt.savefig('Unnamed3.1.png')
-    p = plot(f'{cString} ', 2, 'Unnamed3.1.png')
+    p = plot(f'{cString} ', date, 'Unnamed3.1.png')
     l.append(p)
 
     data3.plot(x=f'{cString}.2', y='Unnamed: 7')
     plt.savefig('Unnamed7.1.png')
-    p = plot(f'{cString}.2', 2, 'Unnamed7.1.png')
+    p = plot(f'{cString}.2', date, 'Unnamed7.1.png')
     l.append(p)
 
     data3.plot(x=f'{cString}.4', y='Unnamed: 11')
     plt.savefig('Unnamed11.1.png')
-    p = plot(f'{cString}.4', 2, 'Unnamed11.1.png')
+    p = plot(f'{cString}.4', date, 'Unnamed11.1.png')
     l.append(p)
     # plt.show()
 
     data4.plot(x=f'{cString}.13', y=f'{cString}.15')
     plt.savefig('Unnamed15.png')
-    p = plot(f'{cString}.13', 2, 'Unnamed15.png')
+    p = plot(f'{cString}.13', date, 'Unnamed15.png')
     l.append(p)
     # plt.show()
     return l
@@ -99,9 +107,9 @@ def main_texts():
     texts("Flash color:", row, col)
     row += 1
 
-    texts("Plot name:", 9, 5)
+    texts("Plot name:", 9, 4)
     row += 1
-    texts("Date:", 10, 5)
+    texts("Date:", 10, 4)
     row += 1
 
     b2 = tk.Button(window, text='Previous',
@@ -152,12 +160,11 @@ def draw_img():
     global img
     global l
     image_file_location = l[idx].filename
-    print(image_file_location)
     img = ImageTk.PhotoImage(file=image_file_location)
     b2 = tk.Button(window, image=img)  # using Button
     b2.grid(row=3, column=3, rowspan=6, columnspan=6)
-    texts(l[idx].name, 9, 6, 2)
-    texts(l[idx].date, 10, 6, 2)
+    texts(l[idx].name, 9, 5, 3)
+    texts(l[idx].date, 10, 5, 3)
 
 
 
@@ -171,6 +178,7 @@ window.title('gui')
 my_font1 = ('times', 18, 'bold')
 l1 = tk.Label(window, text='Select a patient\'s file', width=30, font=my_font1)
 l1.grid(row=1, column=1)
+
 
 # button
 b1 = tk.Button(window, text='Upload File',

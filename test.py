@@ -112,6 +112,21 @@ def main_texts():
     texts("Date:", 10, 4)
     row += 1
 
+    OPTIONS = [
+        "Evaluate",
+        "Normal",
+        "Disease",
+        "data corrupt"
+    ]
+    variable = tk.StringVar(window)
+    variable.set(OPTIONS[0])  # default value
+    w = tk.OptionMenu(window, variable, *OPTIONS)
+    w.grid(row=0, column=0)
+
+    save = tk.Button(window, text='Save evaluation',
+                   width=20, command=lambda: save_result())
+    save.grid(row=1, column=0)
+
     b2 = tk.Button(window, text='Previous',
                    width=20, command=lambda: prev_img())
     b2.grid(row=9, column=3)
@@ -119,6 +134,10 @@ def main_texts():
     b1 = tk.Button(window, text='Next',
                    width=20, command=lambda: next_img())
     b1.grid(row=9, column=8)
+
+
+def save_result():
+    pass
 
 
 def prev_img():

@@ -129,7 +129,7 @@ def main_texts():
 
     b2 = tk.Button(window, text='Previous',
                    width=20, command=lambda: prev_img())
-    b2.grid(row=9, column=3)
+    b2.grid(row=9, column=3 )
 
     b1 = tk.Button(window, text='Next',
                    width=20, command=lambda: next_img())

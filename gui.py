@@ -5,7 +5,7 @@ import numpy as np
 
 #data1 = pd.read_csv("Example Reteval.csv", sep=',', usecols=[6,7], skiprows=28, names=columns )
 #data1 = data1.dropna(how='any')
-data1 = pd.read_csv("CB07_970322_220216105506_Small.csv", sep=',')
+data1 = pd.read_csv("CB07_970322_220216105506_Small.csv", sep=',', encoding='latin1')
 
 
 i = data1.loc[data1['PatientID'] == 'Reported Waveform'].index.values

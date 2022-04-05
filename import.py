@@ -35,8 +35,9 @@ class Measurement: #i'm trying to do everything with a class but wouldn't it be 
        # if v in x:
         #    return i, x.index(v)
 
-def read_data(path):  #this can be integrated into the class or maybe a class for patient would be better and this can be easily integrated into  that BUT if we want to store the data we only need this once
-    csv_files = glob.glob(os.path.join(path, "*.csv"))
+def read_data():  #this can be integrated into the class or maybe a class for patient would be better and this can be easily integrated into  that BUT if we want to store the data we only need this once
+    path=os.getcwd()
+    csv_files = glob.glob(os.path.join(path, "data\*.csv"))
     for f in csv_files: # loop over the list of csv files
         df = pd.read_csv(f, encoding = "ISO-8859-1", low_memory=False, header=None) # read the csv file
         df=df.values
@@ -72,7 +73,7 @@ def read_data(path):  #this can be integrated into the class or maybe a class fo
     #return(d) Now I use d as a global variable in the code but I'm not sure yet how it will be more prctical -> global variable or value that can be passed by the function returning with that dictionary
 
 
-path = r'C:\Users\veres\PycharmProjects\braintherpy\data' #you should give the path where all the data is stored
-read_data(path)
+#path = r'C:\Users\veres\PycharmProjects\braintherpy\data' #you should give the path where all the data is stored
+read_data()
 print(d['CB08'][1].pupil_waveform)
 

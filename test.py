@@ -136,8 +136,13 @@ def main_texts():
     b1.grid(row=9, column=8)
 
 
-def save_result():
-    pass
+def save_result(event):
+    if event.char == "a":
+        print("saving..."+ event.char+ " normal")
+        # ide jöhet a fáljba irás
+    elif event.char == "d":
+        print("saving..." + event.char + " Diseas")
+        #ide pedig egy másik fajta fájlba írás
 
 
 def prev_img():
@@ -203,5 +208,5 @@ l1.grid(row=1, column=1)
 b1 = tk.Button(window, text='Upload File',
                width=20, command=lambda: upload_file())
 b1.grid(row=1, column=2)
-
+window.bind("<Key>", save_result)
 window.mainloop()  # Keep the window open

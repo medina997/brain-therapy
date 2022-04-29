@@ -93,7 +93,7 @@ def texts(s, r, c, cs=1):
     label.grid(row=r, column=c, columnspan=cs)
 
 
-def main_texts():
+def main_texts(filename):
     row, col = 3, 1
     # texts
     texts("Patient ID:", row, col)
@@ -137,12 +137,15 @@ def main_texts():
 
 
 def save_result(event):
-    if event.char == "a":
+    f_types = [('CSV Files', '*.csv')]
+    filename = filedialog.askopenfilename(filetypes=f_types)
+    data1 = pd.read_csv(filename, sep=',', encoding='latin1')
+    if event.char == "n":
         print("saving..."+ event.char+ " normal")
-        # ide jöhet a fáljba irás
+        data1[0][15]="N"
     elif event.char == "d":
         print("saving..." + event.char + " Diseas")
-        #ide pedig egy másik fajta fájlba írás
+        data1[0][15] = "D"
 
 
 def prev_img():
@@ -176,7 +179,7 @@ def upload_file():
     filename = filedialog.askopenfilename(filetypes=f_types)
     l = Patient(filename)
     draw_img()
-    main_texts()
+    main_texts(filename)
 
 
 def draw_img():

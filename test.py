@@ -112,6 +112,10 @@ def main_texts(filename):
     texts("Date:", 10, 4)
     row += 1
 
+    my_font2 = ('times', 12, 'bold')
+    l1 = tk.Label(window, text='Press N for normal \n Press D for diseased', width=20, font=my_font2)
+    l1.grid(row=2, column=0)
+    """
     OPTIONS = [
         "Evaluate",
         "Normal",
@@ -121,11 +125,11 @@ def main_texts(filename):
     variable = tk.StringVar(window)
     variable.set(OPTIONS[0])  # default value
     w = tk.OptionMenu(window, variable, *OPTIONS)
-    w.grid(row=0, column=0)
-
+    w.grid(row=5, column=0)
+    """
     save = tk.Button(window, text='Save evaluation',
                    width=20, command=lambda: save_result())
-    save.grid(row=1, column=0)
+    save.grid(row=4, column=0)
 
     b2 = tk.Button(window, text='Previous',
                    width=20, command=lambda: prev_img())
@@ -141,10 +145,10 @@ def save_result(event):
     filename = filedialog.askopenfilename(filetypes=f_types)
     data1 = pd.read_csv(filename, sep=',', encoding='latin1')
     if event.char == "n":
-        print("saving..."+ event.char+ " normal")
+        print("saving..."+ event.char+ " Normal")
         data1[0][15]="N"
     elif event.char == "d":
-        print("saving..." + event.char + " Diseas")
+        print("saving..." + event.char + " Disease")
         data1[0][15] = "D"
 
 

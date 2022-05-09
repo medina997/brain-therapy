@@ -16,8 +16,8 @@ class Measurement: #i'm trying to do everything with a class but wouldn't it be 
     def __init__(self,records):
         self.date=records[2][0].split(' ')[0]
         self.eye=records[3][0]
-        print(records)
-        print(records[2][0] )
+        #print(records)
+        #print(records[2][0] )
         self.e_type=records[4][0]. split('_')[1]
         self.stim_f, self.a_t, self.a_A, self.b_t, self.b_A=[records[i][0] for i in range(11, 16)]
         self.fund_t=records[17][2]
@@ -70,7 +70,7 @@ def read_data():  #this can be integrated into the class or maybe a class for pa
             d[s]=s_list
         else:
             d[s]=[df[1][2], light_right1, light_right2, light_left1, light_left2, dark_right1, dark_right2, dark_left1, dark_left2]
-        return Measurement
+        return d #Measurement
         #df = df.tolist()
         # print(index_2d(df, 'Reported Waveform'), index_2d(df, 'Raw Waveform'), index_2d(df, 'Pupil Waveform'))
     #return(d) Now I use d as a global variable in the code but I'm not sure yet how it will be more prctical -> global variable or value that can be passed by the function returning with that dictionary

@@ -4,6 +4,9 @@ from tkinter.filedialog import askopenfile
 from PIL import Image, ImageTk
 import pandas as pd
 from matplotlib import pyplot as plt
+from data_import import read_data
+import os
+import glob
 
 
 class plot:
@@ -14,79 +17,51 @@ class plot:
 
 
 def Patient(fileName):
-    # data1 = pd.read_csv("Example Reteval.csv", sep=',', usecols=[6,7], skiprows=28, names=columns )
-    # data1 = data1.dropna(how='any')
-
+    path = os.getcwd()
+    csv_files = glob.glob(os.path.join(path, "data\*.csv"))
+    # path = r'C:\Users\User\PycharmProjects\brain-therapy'
+    m = read_data(path)
     l = []
-    global data1
 
-    data1 = pd.read_csv(fileName, sep=',', encoding='latin1')
-    texts(data1.iloc[2, 2], 5, 2)  # eye
-    texts(data1.iloc[0, 2], 4, 2)  # birthday
-    texts(data1.iloc[5, 2], 6, 2)  # flash
-    texts(data1.iloc[6, 2], 7, 2)  # flash color
-    date = data1.iloc[1, 2]
+    cString = fileName[49:53]
+    print(cString)
+    for i in range(len(m[cString])):
+        if hasattr(m[cString][i], 'eye'):
+            texts(m[cString][i].eye, 5, 2)
+            break  # eye
+        if hasattr(m[cString][i], 'date'):
+            texts(m[cString][i].date, 5, 2)
+            break  # eye
+        if hasattr(m[cString][i], 'e_type'):
+            texts(m[cString][i].e_type, 5, 2)
+            break  # eye
+        if hasattr(m[cString][i], 'waveform_t'):
+            texts(m[cString][i].waveform_t, 5, 2)
+            break  # eye
+    # texts(m[cString][1].date, 4, 2)  # birthday
+    # texts(m[cString][1].e_type, 6, 2)  # electrode type
+    # texts(m[cString][1].waveform_t, 7, 2) #flash
 
-    cString = data1.columns[2]
-    texts(cString, 3, 2)  # patient ID
+    for i in range(len(m[cString])):
+        if hasattr(m[cString][i], 'recorded_waveform'):
+            df = m[cString][i].recorded_waveform
+            df = df.dropna(axis=1, how='all')
+            df = df.apply(pd.to_numeric)
+            df.plot(x='ms', y='uV')
+            plt.savefig('Unnamed' + str(i) + '.png')
+            p = plot(cString, m[cString][i].date, 'Unnamed' + str(i) + '.png')
+            l.append(p)
 
-    i = data1.loc[data1['PatientID'] == 'Reported Waveform'].index.values
-    j = data1.loc[data1['PatientID'] == 'Raw Waveform'].index.values
-    k = data1.loc[data1['PatientID'] == 'Pupil Waveform'].index.values
-
-    data2 = data1.iloc[i[0] + 1:j[0], :]  # splitting the datasets
-    data3 = data1.iloc[j[0] + 1:k[0], :]
-    data4 = data1.iloc[k[0] + 1:, :]
-
-    # dropping the columns that does not have values
-    data2 = data2.dropna(axis=1, how='all')
-    data3 = data3.dropna(axis=1, how='all')
-    data4 = data4.dropna(axis=1, how='all')
-    # converting the column values to numeric data
-    data2 = data2.apply(pd.to_numeric)
-    data3 = data3.apply(pd.to_numeric)
-    data4 = data4.apply(pd.to_numeric)
-
-    print(data4.columns)
-    print(data4)
-
-    #  plotting
-
-    data2.plot(x=f'{cString}', y='Unnamed: 3')
-    plt.savefig('Unnamed3.png')
-    p = plot(f'{cString} ', date, 'Unnamed3.png')
-    l.append(p)
-
-    data2.plot(x=f'{cString}.2', y='Unnamed: 7')
-    plt.savefig('Unnamed7.png')
-    p = plot(f'{cString}.2', date, 'Unnamed7.png')
-    l.append(p)
-
-    data2.plot(x=f'{cString}.4', y='Unnamed: 11')
-    plt.savefig('Unnamed11.png')
-    p = plot(f'{cString}.4', date, 'Unnamed11.png')
-    l.append(p)
-
-    data3.plot(x=f'{cString}', y='Unnamed: 3')
-    plt.savefig('Unnamed3.1.png')
-    p = plot(f'{cString} ', date, 'Unnamed3.1.png')
-    l.append(p)
-
-    data3.plot(x=f'{cString}.2', y='Unnamed: 7')
-    plt.savefig('Unnamed7.1.png')
-    p = plot(f'{cString}.2', date, 'Unnamed7.1.png')
-    l.append(p)
-
-    data3.plot(x=f'{cString}.4', y='Unnamed: 11')
-    plt.savefig('Unnamed11.1.png')
-    p = plot(f'{cString}.4', date, 'Unnamed11.1.png')
-    l.append(p)
-
-    data4.plot(x=f'{cString}.13', y=f'{cString}.15')
-    plt.savefig('Unnamed15.png')
-    p = plot(f'{cString}.13', date, 'Unnamed15.png')
-    l.append(p)
-    return l, data1
+    for i in range(len(m[cString])):
+        if hasattr(m[cString][i], 'raw_waveform'):
+            df = m[cString][i].raw_waveform
+            df = df.dropna(axis=1, how='all')
+            df = df.apply(pd.to_numeric)
+            df.plot(x='ms', y='uV')
+            plt.savefig('Unnamed' + str(i) + '.png')
+            p = plot(cString, m[cString][i].date, 'Unnamed' + str(i) + '.png')
+            l.append(p)
+    return l
 
 
 def texts(s, r, c, cs=1):
@@ -192,7 +167,7 @@ def upload_file():
     f_types = [('CSV Files', '*.csv')]
     global filename
     filename = filedialog.askopenfilename(filetypes=f_types)
-    l, data1 = Patient(filename)
+    l = Patient(filename)
     draw_img()
     main_texts(filename)
 

@@ -18,29 +18,31 @@ class plot:
 
 def Patient(fileName):
     path = os.getcwd()
+
     csv_files = glob.glob(os.path.join(path, "data\*.csv"))
+    print(filename)
     # path = r'C:\Users\User\PycharmProjects\brain-therapy'
     m = read_data(path)
     l = []
-
-    cString = fileName[49:53]
-    print(cString)
+    c = fileName.find("_")
+    cString = fileName[c-4:c]
     for i in range(len(m[cString])):
         if hasattr(m[cString][i], 'eye'):
             texts(m[cString][i].eye, 5, 2)
             break  # eye
         if hasattr(m[cString][i], 'date'):
             texts(m[cString][i].date, 5, 2)
-            break  # eye
+            break  # date
         if hasattr(m[cString][i], 'e_type'):
             texts(m[cString][i].e_type, 5, 2)
-            break  # eye
+            break  # _type
         if hasattr(m[cString][i], 'waveform_t'):
             texts(m[cString][i].waveform_t, 5, 2)
-            break  # eye
-    # texts(m[cString][1].date, 4, 2)  # birthday
-    # texts(m[cString][1].e_type, 6, 2)  # electrode type
-    # texts(m[cString][1].waveform_t, 7, 2) #flash
+            break  # waveform_t
+    texts(cString, 3, 2)  # patientID
+    texts(m[cString][1].date, 4, 2)  # birthday
+    texts(m[cString][1].e_type, 6, 2)  # electrode type
+    texts(m[cString][1].waveform_t, 7, 2) # flash
 
     for i in range(len(m[cString])):
         if hasattr(m[cString][i], 'recorded_waveform'):
@@ -121,11 +123,12 @@ def save_result(event):
     except:
         return
     c = filename.find("_")
-    print(c)
     fname = filename[c:]
+    data1 = pd.read_csv(filename, sep=',', encoding='latin1')
 
     if event.char == "n":
         print("saving..." + event.char + " Normal")
+
         data1["Diagnoses"] = "NORMAL"
         data1.to_csv("saved_file" + fname, index=False)
 
@@ -133,12 +136,12 @@ def save_result(event):
     elif event.char == "d":
         print("saving..." + event.char + " Disease")
         data1["Diagnoses"] = "DISEASE"
-        data1.to_csv("saved_file.csv", index=False)
+        data1.to_csv("saved_file.csv"+ fname, index=False)
 
     elif event.char == "c":
         print("saving..." + event.char + " Data corrupt")
         data1["Diagnoses"] = "DATA CORRUPT"
-        data1.to_csv("saved_file.csv", index=False)
+        data1.to_csv("saved_file.csv"+ fname, index=False)
 
 
 def prev_img():

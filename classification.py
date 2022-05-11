@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def features(_id, _data):
+def features(_id, _data):   # get familiar with data format
     print('---------------')
     print(_id, _data.pop(0))
     for i in _data:
@@ -16,15 +16,15 @@ def features(_id, _data):
         """
 
 
-def dot_product(a, b):
+def dot_product(a, b):  # dot product of a and b
     return sum([float(i)*float(j) for (i, j) in zip(a, b)])
 
 
-def dot_distance(a, b):
+def dot_distance(a, b): # pontwise distance
     return math.sqrt(sum([ (float(i) - float(j))**2 for (i, j) in zip(a, b)]))
 
 
-def plot_features(f):
+def plot_features(f):   # draw figures and save
     x = [key for key in f]
     y_all = [f[key] for key in f]
     y = np.array(y_all)
@@ -44,7 +44,7 @@ def plot_features(f):
     """
 
 
-def print_metr(metrics, index):
+def print_metr(metrics, index):     # examine distance and dot product results
     for m in metrics:
         print('\n',m)
         for i in metrics[m]:
@@ -52,8 +52,7 @@ def print_metr(metrics, index):
         #print(metrics[m][0])
 
 
-
-def intra_distance(data):
+def intra_distance(data):   # calculate intra-subject metrics
     date = data.pop(0)
     #print(date)
     #print('Left-Right comp.', end=' ')
@@ -88,7 +87,7 @@ def print_ab(ab):
             print(ab[e][i*2 + 1])
 
 
-def ab_waves(data):
+def ab_waves(data):     # get waveform data
     dist = []
     for i in range(16):
         if i in [0, 2, 5, 7, 13]:
@@ -103,11 +102,7 @@ def ab_waves(data):
     return dist
 
 
-def diff_in_eyes():
-    mean = []
-
-
-def classif_wave(ab):
+def classif_wave(ab):   # give back classification of the data... not work yet
     mean = {}
     x = [key for key in ab]
     y_all = [ab[key] for key in ab]
@@ -116,9 +111,8 @@ def classif_wave(ab):
     mean['a_t'] = np.sum(y[:, 0, 0])/len(x)
     mean['a_t'] = np.sum([y[:, i*2, 0] for i in range(2)])/len(x)
     print(y)
-    print(y[:, 0, 0])
+    print([y[:, i*2, 0] for i in range(2)])
     print(mean['a_t'])
-
 
 
 def main():
@@ -138,7 +132,7 @@ def main():
     print_metr(metr, 1)
     #print_ab(ab)
     #plot_features(ab)
-    #classif_wave(ab)
+    classif_wave(ab)
 
 
 

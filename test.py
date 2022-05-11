@@ -224,7 +224,7 @@ height = window.winfo_screenheight()
 window.geometry("%dx%d" % (width, height))
 window.title('gui')
 my_font1 = ('times', 18, 'bold')
-l1 = tk.Label(window, text='Select a folder then patient\'s file', width=30, font=my_font1)
+l1 = tk.Label(window, text='Select a patient\'s file', width=30, font=my_font1)
 l1.grid(row=1, column=1)
 
 # button

@@ -28,21 +28,25 @@ def Patient(fileName):
     cString = fileName[c-4:c]
     for i in range(len(m[cString])):
         if hasattr(m[cString][i], 'eye'):
-            texts(m[cString][i].eye, 5, 2)
+            texts(m[cString][i].eye, 7, 1)
             break  # eye
-        if hasattr(m[cString][i], 'date'):
-            texts(m[cString][i].date, 5, 2)
+        if hasattr(m[cString][i], 'birth_date'):
+            texts(m[cString][i].birth_date, 5, 1)
             break  # date
         if hasattr(m[cString][i], 'e_type'):
-            texts(m[cString][i].e_type, 5, 2)
+            texts(m[cString][i].e_type, 5, 1)
             break  # _type
-        if hasattr(m[cString][i], 'waveform_t'):
-            texts(m[cString][i].waveform_t, 5, 2)
-            break  # waveform_t
-    texts(cString, 3, 2)  # patientID
-    texts(m[cString][1].date, 4, 2)  # birthday
-    texts(m[cString][1].e_type, 6, 2)  # electrode type
-    texts(m[cString][1].waveform_t, 7, 2) # flash
+        if hasattr(m[cString][i], 'brightness') and m[cString][i].brihtness != 'NaN' :
+            texts(m[cString][i].brihtness, 5, 1)
+            break  # brightness of flash
+        if hasattr(m[cString][i], 'color'):
+            texts(m[cString][i].color, 5, 1)
+            break  # brightness of flash
+    texts(cString, 5, 1)  # patientID
+    texts(m[cString][1].date, 6, 1)  # birthday
+    texts(m[cString][1].e_type, 8, 1)  # electrode type
+    texts(m[cString][1].brightness, 9,1) # brightness
+    texts(m[cString][1].color, 10, 1)  # color
 
     for i in range(len(m[cString])):
         if hasattr(m[cString][i], 'recorded_waveform'):
@@ -81,7 +85,7 @@ def main_texts(filename):
     This function is responsible for the main Gui appearance, before loading any csv file
     :rtype: object
     """
-    row, col = 3, 1
+    row, col = 5, 0
     # texts
     texts("Patient ID:", row, col)
     row += 1
@@ -89,27 +93,29 @@ def main_texts(filename):
     row += 1
     texts("Eye:", row, col)
     row += 1
-    texts("Flash:", row, col)
+    texts("Electrode type:", row, col)
     row += 1
-    texts("Flash color:", row, col)
+    texts("Brightness of Flash :", row, col)
+    row += 1
+    texts("Color of Flash :", row, col)
     row += 1
 
-    texts("Plot name:", 12, 4)
+    texts("Plot name:", 14, 2)
     row += 1
-    texts("Date:", 13, 4)
+    texts("Date:", 15, 2)
     row += 1
 
     my_font2 = ('times', 12, 'bold')
-    l1 = tk.Label(window, text='Press N for normal \n Press D for diseased\n Press C for corrupt data', width=20, font=my_font2)
-    l1.grid(row=2, column=0)
+    l1 = tk.Label(window, text='Press N for normal, press D for diseased, press C for corrupt data', width=60, font=my_font2)
+    l1.grid(row=3, column=4)
 
     b2 = tk.Button(window, text='Previous',
                    width=20, command=lambda: prev_img())
-    b2.grid(row=12, column=3)
+    b2.grid(row=14, column=1)
 
     b1 = tk.Button(window, text='Next',
                    width=20, command=lambda: next_img())
-    b1.grid(row=12, column=8)
+    b1.grid(row=14, column=4)
 
 
 def save_result(event):
@@ -182,9 +188,9 @@ def draw_img():
     image_file_location = l[idx].filename
     img = ImageTk.PhotoImage(file=image_file_location)
     b2 = tk.Button(window, image=img)  # using Button
-    b2.grid(row=3, column=3, rowspan=8, columnspan=8)
-    texts(l[idx].name, 12, 5, 3)
-    texts(l[idx].date, 13, 5, 3)
+    b2.grid(row=5, column=1, rowspan=8, columnspan=8)
+    texts(l[idx].name, 14, 3, 1)
+    texts(l[idx].date, 15, 3, 1)
 
 
 window = tk.Tk()

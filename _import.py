@@ -18,7 +18,7 @@ class Measurement: #i'm trying to do everything with a class but wouldn't it be 
         self.eye=records[3][0]
         self.e_type=records[4][0]. split('_')[1]
         self.flash = records[6][0]
-        #self.stim_f, self.a_t, self.a_A, self.b_t, self.b_A=[records[i][0] for i in range(11, 16)]
+        self.a_t, self.a_A, self.b_t, self.b_A=[records[i][0] for i in range(12, 16)]
         self.fund_t=records[17][2]
         self.waveform_t =records[18][2]
         self.fund_A= records[19][2]
@@ -44,7 +44,7 @@ class Measurement: #i'm trying to do everything with a class but wouldn't it be 
 def read_data(path):
     d = {}
     csv_files = glob.glob(os.path.join(path, "*.csv"))
-    for f in csv_files: # loop over the list of csv files
+    for f in csv_files[:4]: # loop over the list of csv files
         df = pd.read_csv(f, encoding = "ISO-8859-1", low_memory=False, header=None) # read the csv file
         df=df.values
         #df=df.tolist() #easier to use the table as a list of lists(rows) but I use the np.array because of the indexing

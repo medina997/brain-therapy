@@ -16,16 +16,25 @@ class plot:
         self.date = date
 
 
-def Patient(fileName):
-    path = os.getcwd()
+def Patient(foldername):
+    f_types = [('CSV Files', '*.csv')]
+    global filename
+    filename = filedialog.askopenfilename(filetypes=f_types)
+    main_texts(filename)
 
-    csv_files = glob.glob(os.path.join(path, "data\*.csv"))
+    #path = os.getcwd()
+
+    #csv_files = glob.glob(os.path.join(path, "data\*.csv"))
     print(filename)
     # path = r'C:\Users\User\PycharmProjects\brain-therapy'
-    m = read_data(path)
+    m = read_data(foldername)
+    # print(m)
     l = []
-    c = fileName.find("_")
-    cString = fileName[c-4:c]
+    l_raw = []
+
+    c = filename.find("_")
+    cString = filename[c-4:c]
+
     for i in range(len(m[cString])):
         if hasattr(m[cString][i], 'eye'):
             texts(m[cString][i].eye, 7, 1)
@@ -57,6 +66,9 @@ def Patient(fileName):
             plt.savefig('Unnamed' + str(i) + '.png')
             p = plot(cString, m[cString][i].date, 'Unnamed' + str(i) + '.png')
             l.append(p)
+            fig = plt.gcf()
+            plt.close(fig)
+
 
     for i in range(len(m[cString])):
         if hasattr(m[cString][i], 'raw_waveform'):
@@ -64,9 +76,11 @@ def Patient(fileName):
             df = df.dropna(axis=1, how='all')
             df = df.apply(pd.to_numeric)
             df.plot(x='ms', y='uV')
-            plt.savefig('Unnamed' + str(i) + '.png')
-            p = plot(cString, m[cString][i].date, 'Unnamed' + str(i) + '.png')
+            plt.savefig('Raw' + str(i) + '.png')
+            p = plot(cString, m[cString][i].date, 'Raw' + str(i) + '.png')
             l.append(p)
+            fig = plt.gcf()
+            plt.close(fig)
     return l
 
 
@@ -161,30 +175,25 @@ def prev_img():
 def next_img():
     global idx
     idx += 1
-    if idx > 6:
-        idx = 6
+    if idx > len(l)-1:
+        idx = len(l)-1
     draw_img()
 
 
 def upload_file():
-    global img
     global l
     global idx
-    global data1
     idx = 0
-
-    f_types = [('CSV Files', '*.csv')]
-    global filename
-    filename = filedialog.askopenfilename(filetypes=f_types)
-    l = Patient(filename)
+    foldername = filedialog.askdirectory()
+    l = Patient(foldername)
     draw_img()
-    main_texts(filename)
 
 
 def draw_img():
-    global idx
+    """
+
+    """
     global img
-    global l
     image_file_location = l[idx].filename
     img = ImageTk.PhotoImage(file=image_file_location)
     b2 = tk.Button(window, image=img)  # using Button

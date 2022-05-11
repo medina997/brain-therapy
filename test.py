@@ -17,6 +17,11 @@ class plot:
 
 
 def Patient(foldername):
+    """
+    select file after folder read_data function and with the read and preprocessed data  create the plots
+
+    :rtype: object
+    """
     f_types = [('CSV Files', '*.csv')]
     global filename
     filename = filedialog.askopenfilename(filetypes=f_types)
@@ -165,6 +170,9 @@ def save_result(event):
 
 
 def prev_img():
+    """
+    show the previous plot by clicking on previous button and calling draw_img()
+    """
     global idx
     idx -= 1
     if idx < 0:
@@ -173,6 +181,9 @@ def prev_img():
 
 
 def next_img():
+    """
+    show the next plot by clicking on next button and calling draw_img()
+    """
     global idx
     idx += 1
     if idx > len(l)-1:
@@ -181,6 +192,9 @@ def next_img():
 
 
 def upload_file():
+    """
+    choose folder of the csv files
+    """
     global l
     global idx
     idx = 0
@@ -191,7 +205,7 @@ def upload_file():
 
 def draw_img():
     """
-
+    function for visualising the calculated plots
     """
     global img
     image_file_location = l[idx].filename
@@ -210,7 +224,7 @@ height = window.winfo_screenheight()
 window.geometry("%dx%d" % (width, height))
 window.title('gui')
 my_font1 = ('times', 18, 'bold')
-l1 = tk.Label(window, text='Select a patient\'s file', width=30, font=my_font1)
+l1 = tk.Label(window, text='Select a folder then patient\'s file', width=30, font=my_font1)
 l1.grid(row=1, column=1)
 
 # button
